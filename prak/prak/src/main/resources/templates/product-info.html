@@ -16,7 +16,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
-        <a class="navbar-brand" href="#">Мой Авито</a>
+        <a class="navbar-brand" href="#">КУПЛЯ/ПРОДАЖА</a>
         <a class="btn btn-light" th:href="@{/}">На главную</a>
     </div>
 </nav>
@@ -51,7 +51,7 @@
 
         <div class="col-md-6">
             <h2 th:text="${product.name}">Название товара</h2>
-            <p class="text-muted" th:text="'Автор объявления: ' + ${product.author}">Автор</p>
+            <p class="text-muted" th:text="'Автор объявления: ' + ${product.author.firstname}">Автор</p>
 
             <p>
                 <span class="fw-bold">Город:</span>

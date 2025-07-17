@@ -19,4 +19,8 @@ public class CategoryService {
     public List<Category> getCategories() {
         return categoryRepository.findAll(Sort.by(Sort.Order.asc("name")));
     }
+
+    public Category getCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElse(null);
+    }
 }

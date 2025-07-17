@@ -22,9 +22,45 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container">
+    <div class="container-fluid px-4">
         <a class="navbar-brand" th:href="@{/}">КУПЛЯ\ПРОДАЖА</a>
-        <a class="btn btn-light" th:href="@{/product/create}">Добавить объявление</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+            <ul class="navbar-nav gap-2 align-items-center">
+
+                <!-- Кнопка "Добавить объявление" (видна всем) -->
+                <li class="nav-item">
+                    <a class="btn btn-light" th:href="@{/product/create}">Добавить объявление</a>
+                </li>
+
+                <!-- Для НЕавторизованных -->
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="btn btn-outline-light" th:href="@{/login}">Вход</a>
+                </li>
+
+                <!-- Для авторизованных -->
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Мой аккаунт
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" th:href="@{/profile}">Профиль</a></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="dropdown-item p-0">
+                                <button type="submit" class="btn w-100 text-start">Выход</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -34,6 +70,9 @@
     <div class="text-center mb-4">
         <h1>Привет!</h1>
         <p class="text-muted">Найдите нужное объявление или разместите своё</p>
+    </div>
+    <div class="alert alert-warning text-center" sec:authorize="isAnonymous()">
+        Чтобы создать объявление, <a th:href="@{/login}">войдите в аккаунт</a> или <a th:href="@{/registration}">зарегистрируйтесь</a>.
     </div>
 
     <form method="get" th:action="@{/product/search}" class="row g-3 mb-4">

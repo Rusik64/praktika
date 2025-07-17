@@ -4,20 +4,24 @@ import com.example.prak.repository.CityRepository;
 import com.example.prak.repository.ProductRepository;
 import com.example.prak.repository.model.Image;
 import com.example.prak.repository.model.Product;
+import com.example.prak.repository.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final UserService userService;
 
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, UserService userService) {
         this.productRepository = productRepository;
+        this.userService = userService;
     }
 
     public void save(Product newProduct, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws IOException {
@@ -39,7 +43,7 @@ public class ProductService {
         }
         Product productFromDb = productRepository.save(newProduct);
         productFromDb.setPreviewImageId(productFromDb.getImages().get(0).getId());
-        productRepository.save(newProduct);
+        productRepository.save(productFromDb);
     }
 
     private Image imageToEntity(MultipartFile file) throws IOException {
