@@ -86,7 +86,15 @@ public class ProductService {
         return productRepository.findAllByCategory_Id(categoryId);
     }
 
-    public void delete(Long id) {
-        productRepository.deleteById(id);
+    public void delete(Product product) {
+        productRepository.delete(product);
+    }
+
+    public List<Product> getAllByAuthor(User user) {
+        return productRepository.findAllByUserId(user.getId());
+    }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
     }
 }

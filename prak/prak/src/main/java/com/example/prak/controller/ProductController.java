@@ -82,4 +82,17 @@ public class ProductController {
         model.addObject("images", product.getImages());
         return model;
     }
+
+    @PostMapping("/product/delete/{id}")
+    public String deleteProduct(@PathVariable Long id, Principal principal) {
+        Product product = productService.getProductById(id);
+        System.out.println(product.getUser().getUsername().equals(principal.getName()));
+        if (product.getUser().getUsername().equals(principal.getName())) {
+            productService.delete(product);
+        }
+        else {
+            System.out.println("No rights");
+        }
+        return "redirect:/profile";
+    }
 }

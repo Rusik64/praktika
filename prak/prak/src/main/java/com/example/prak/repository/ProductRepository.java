@@ -22,4 +22,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
       AND (:categoryId IS NULL OR p.category.id = :categoryId)
 """)
     List<Product> searchProducts(@Param("name") String name, @Param("cityId") Long cityId, @Param("categoryId") Long categoryId);
+
+    List<Product> findAllByUserId(Long id);
 }

@@ -29,7 +29,7 @@ public class User implements Serializable {
     private boolean confirmed;
     @Column(name = "token")
     private String token;
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Product> products;
 
 

@@ -1,8 +1,10 @@
 package com.example.prak.controller;
 
+import com.example.prak.repository.model.Product;
 import com.example.prak.repository.model.User;
 import com.example.prak.controller.form.UserForm;
 import com.example.prak.controller.form.UserFormValidator;
+import com.example.prak.service.ProductService;
 import com.example.prak.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -10,19 +12,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 @Controller
 public class UserController {
-    UserService userService;
+    private final UserService userService;
     UserFormValidator userFormValidator;
-    public UserController(UserService userService, UserFormValidator userFormValidator) {
+    private final ProductService productService;
+
+    public UserController(UserService userService, UserFormValidator userFormValidator, ProductService productService) {
         this.userService = userService;
         this.userFormValidator = userFormValidator;
+        this.productService = productService;
     }
     @InitBinder
     private void InitBinder(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(userFormValidator);
+        if (webDataBinder.getTarget() != null && webDataBinder.getTarget().getClass() == UserForm.class) {
+            webDataBinder.setValidator(userFormValidator);
+        }
     }
     @GetMapping("/user/registration")
     public ModelAndView userRegistration(ModelAndView model) {
@@ -58,4 +67,15 @@ public class UserController {
         model.setViewName("login");
         return model;
     }
+
+    @GetMapping("/profile")
+    public ModelAndView userProfile(Principal principal) {
+        ModelAndView model = new ModelAndView("profile");
+        User user = userService.getByUsername(principal.getName());
+        List<Product> products = productService.getAllByAuthor(user);
+        model.addObject("user", user);
+        model.addObject("products", products);
+        return model;
+    }
+
 }

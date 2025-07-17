@@ -31,9 +31,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User author;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     private List<Image> images = new ArrayList<>();
     private Long previewImageId;
@@ -92,12 +92,12 @@ public class Product {
         this.city = city;
     }
 
-    public User getAuthor() {
-        return author;
+    public User getUser() {
+        return user;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthor(User user) {
+        this.user = user;
     }
 
     public List<Image> getImages() {

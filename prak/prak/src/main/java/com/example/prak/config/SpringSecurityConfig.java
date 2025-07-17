@@ -32,8 +32,8 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(daoAuthenticationProvider());
         http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/user/registration/**", "/user/confirm-email/**", "user/mail-confirmed/**", "user/mail-confirmation/**", "/access-denied/**", "/", "/product/*").permitAll()
-                                .requestMatchers("/product/create").authenticated()
+                        auth.requestMatchers("/user/registration/**", "/user/confirm-email/**", "user/mail-confirmed/**", "user/mail-confirmation/**", "/access-denied/**", "/", "/product/*", "images/**").permitAll()
+                                .requestMatchers("/product/create", "/product/delete/*").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(login ->
